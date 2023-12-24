@@ -148,7 +148,7 @@ So `MyHttpTrigger.js` writes the received string to `D:\home\input.txt`, makes a
 
 In the Azure portal, created a Function App `sjtfun1220` and within it a Function [`MyHttpTrigger`](./phase1/MyProjFolder/src/functions/MyHttpTrigger.js) with a Node runtime. 
 
-On my local machine used [Azure Core Tools]()https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=macos%2Cisolated-process%2Cnode-v4%2Cpython-v2%2Chttp-trigger%2Ccontainer-apps&pivots=programming-language-csharp to test `MyHttpTrigger` 
+On my local machine used [Azure Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=macos%2Cisolated-process%2Cnode-v4%2Cpython-v2%2Chttp-trigger%2Ccontainer-apps&pivots=programming-language-csharp) to test `MyHttpTrigger` 
 
     func start
 
