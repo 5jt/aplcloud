@@ -13,7 +13,7 @@ For this, the application delegates sublists of records to a Request Broker proc
 The main application, RB, and Workers are implemented in APL+Win.
 Interprocess communication was implemented first with OCX controls, later with HTTP.
 
-The code in the Worker process requires no GUI and is a good candidate for porting to Dyalog APL. 
+The code in the Worker process requires no GUI and is a good candidate for porting.
 APL+Win is a 32-bit Windows interpreter nearing its end of life.
 Migration candidates are APL64 (64-bit Windows) and Dyalog APL (Linux, macOS, and Windows).
 
@@ -34,8 +34,8 @@ AF and AL are typically used for ‘microservices’: processes that perform a s
 It distinguishes three kinds of function. 
 
 <dl>
-<dt>Client</dt>>
-<dd>High availability and low latency: receives incoming job, invokes the *Orchestration* function and returns a *Download URL* from which the result can be downloaded when ready. (Until then and HTTP GET will geta 202 response.)</dd>
+<dt>Client</dt>
+<dd>High availability and low latency: receives incoming job, invokes the <em>Orchestration</em> function and returns a <em>Download URL</em> from which the result can be downloaded when ready. (Until then an HTTP GET will get a 202 response.)</dd>
 
 <dt>Orchestration</dt>
 <dd>
@@ -81,15 +81,23 @@ Plan of work:
     and the external HTTP GETs will be secured with function keys.
 
 At this point we will have a cloud-based service API that could be used by the Superval application.
+
 For example, if Superval parcels an evaluation into 100 API calls, it will assemble the evaluation results from 100 URLs produced by up to 100 worker processes. 
 While Superval continues to manage the fan-out, the horizontal scaling is performed by Azure; Azure charges apply only while evaluation is in progress.
 
+Upgrade to Azure Durable Functions:
+
+-   Write a Client function to receive entire evaluation workload, push to Blob storage, return Download URL.
+-   Write an Orchestration function to parcel out the workload to Worker functions, manage failover, assemble results and write to Download URL,
+-   Write a Worker function to receive parcel, write files in local filesystem, call APL evaluation, and return output files to Orchestration function.
+
 Progress
 --------
-1. [x] Implement an AF using APL+Win
-1. [ ] Implement a synch AF using APL+Win to process a short list of records
-1. [ ] Implement an asynch AF using APL+Win to process a short list of records
-1. [ ] Implement an asynch AF using Superval to process a short list of records
+- [x] Implement an AF using APL+Win
+- [ ] Implement a synch AF using APL+Win to process a short list of records
+- [ ] Implement an asynch AF using APL+Win to process a short list of records
+- [ ] Implement an asynch AF using Superval to process a short list of records
+- [ ] Upgrade to Azure Durable Functions
 
 
 Notes
@@ -136,11 +144,11 @@ Followed Microsoft Learn tutorials and constructed an AF in Node that reverses a
 
 APL+Win has no way to read parameter values from the command line, so inputs must be from file.
 AF instances have a local file system at `D:\home` with 500 MB storage.
-So `MyHttpTrigger.js` writes the received string to `D:\home\input.txt`, makes an asynch call to `aplwr.exe reverser.w3` then reads `D:\home\output.txt` for the revered string to return. 
+So `MyHttpTrigger.js` writes the received string to `D:\home\input.txt`, makes an async call to `aplwr.exe reverser.w3` then reads `D:\home\output.txt` for the revered string to return. 
 
 In the Azure portal, created a Function App `sjtfun1220` and within it a Function [`MyHttpTrigger`](./phase1/MyProjFolder/src/functions/MyHttpTrigger.js) with a Node runtime. 
 
-On my local machine used Azure Core Functions to test `MyHttpTrigger` 
+On my local machine used [Azure Core Tools]()https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=macos%2Cisolated-process%2Cnode-v4%2Cpython-v2%2Chttp-trigger%2Ccontainer-apps&pivots=programming-language-csharp to test `MyHttpTrigger` 
 
     func start
 
