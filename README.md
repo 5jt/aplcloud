@@ -1,5 +1,8 @@
 aplcloud
 ========
+
+![APL in the cloud](img/aplcloud.png)
+
 *Use a cloud platform for horizontal scaling of an APL computation*
 
 Background
@@ -16,6 +19,7 @@ Interprocess communication was implemented first with OCX controls, later with H
 The code in the Worker process requires no GUI and is a good candidate for porting.
 APL+Win is a 32-bit Windows interpreter nearing its end of life.
 Migration candidates are APL64 (64-bit Windows) and Dyalog APL (Linux, macOS, and Windows).
+For this project, the OS remains Microsoft Windows.
 
 A cloud implementation would permit the application owner to offer it as a service.
 
@@ -161,3 +165,8 @@ and in the local command shell
     ❯ curl https://sjtfun1220.azurewebsites.net/api/myhttptrigger\?name\=robert
     Hello from APL, trebor!
 
+***
+
+## Acknowledgements
+
+My thanks for advice to Michael Hughes and Morten Kromberg.
