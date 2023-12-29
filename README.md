@@ -108,7 +108,8 @@ Progress
 Notes
 -----
 
-How it was done, and what did not work.
+What worked, what didn't.
+
 
 ### 1. Implement an AF using APL+Win
 
@@ -176,15 +177,111 @@ Script [`make-azure-funapp.ps1`](./phase2/make-azure-funapp.ps1) generates versi
 - [x] [`revaplwin.azurewebsites.net/api/myhttptrigger?name=treboR`](https://revaplwin.azurewebsites.net/api/myhttptrigger?name=treboR) works
 - [ ] [`revdyalog.azurewebsites.net/api/myhttptrigger?name=treboR`](https://revdyalog.azurewebsites.net/api/myhttptrigger?name=treboR) works on Azurite (localhost) but breaks on Azure
 
-#### Azure Filesystem Logs
+#### Azurite
+
+    PS C:\Users\steph> curl http://localhost:7071/api/MyHttpTrigger?name=moT                                                
+
+    StatusCode        : 200
+    StatusDescription : OK
+    Content           : Hello from Dyalog APL, Tom!
+    RawContent        : HTTP/1.1 200 OK
+                        Transfer-Encoding: chunked
+                        Content-Type: text/plain;charset=UTF-8
+                        Date: Fri, 29 Dec 2023 11:54:01 GMT
+                        Server: Kestrel
+
+                        Hello from Dyalog APL, Tom!
+    Forms             : {}
+    Headers           : {[Transfer-Encoding, chunked], [Content-Type, text/plain;charset=UTF-8], [Date, Fri, 29 Dec 2023
+                        11:54:01 GMT], [Server, Kestrel]}
+    Images            : {}
+    InputFields       : {}
+    Links             : {}
+    ParsedHtml        : System.__ComObject
+    RawContentLength  : 27
+
+    PS C:\Users\steph>
+
+
+#### Azure
+
+    PS C:\Users\steph> curl https://revaplwin.azurewebsites.net/api/myhttptrigger?name=moT                                  
+
+    StatusCode        : 200
+    StatusDescription : OK
+    Content           : Hello from APL+Win, Tom!
+    RawContent        : HTTP/1.1 200 OK
+                        Transfer-Encoding: chunked
+                        Content-Type: text/plain;charset=UTF-8
+                        Date: Fri, 29 Dec 2023 11:56:54 GMT
+
+                        Hello from APL+Win, Tom!
+    Forms             : {}
+    Headers           : {[Transfer-Encoding, chunked], [Content-Type, text/plain;charset=UTF-8], [Date, Fri, 29 Dec 2023
+                        11:56:54 GMT]}
+    Images            : {}
+    InputFields       : {}
+    Links             : {}
+    ParsedHtml        : System.__ComObject
+    RawContentLength  : 24
+
+
+    PS C:\Users\steph> curl https://revdyalog.azurewebsites.net/api/myhttptrigger?name=moT
+    curl : The remote server returned an error: (500) Internal Server Error.
+    At line:1 char:1
+    + curl https://revdyalog.azurewebsites.net/api/myhttptrigger?name=moT
+    + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        + CategoryInfo          : InvalidOperation: (System.Net.HttpWebRequest:HttpWebRequest) [Invoke-WebRequest], WebExc
+       eption
+        + FullyQualifiedErrorId : WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand
+
+    PS C:\Users\steph>
+
+#### Diagnostics
+
+Since the `dyalogrt.exe reverser.dws` command succeeds on Azurite its failure on Azure must be due to differences in the environment.
 
     2023-12-29T07:49:01.262 [Information] Executing 'Functions.MyHttpTrigger' (Reason='This function was programmatically called via the host APIs.', Id=16592c1d-55a4-41e0-9683-93030dd960fd)
     2023-12-29T07:49:01.311 [Information] Http function processed request for url "https://revdyalog.azurewebsites.net/api/myhttptrigger?name=treboR"
     2023-12-29T07:49:01.475 [Error] Executed 'Functions.MyHttpTrigger' (Failed, Id=16592c1d-55a4-41e0-9683-93030dd960fd, Duration=213ms)Result: FailureException: Command failed: dyalogrt.exe reverser.dwsStack: Error: Command failed: dyalogrt.exe reverser.dwsat ChildProcess.exithandler (node:child_process:412:12)at ChildProcess.emit (node:events:513:28)at maybeClose (node:internal/child_process:1091:16)at ChildProcess._handle.onexit (node:internal/child_process:302:5)
 
+> Hello, this is Bing. It seems like you are trying to run a Windows executable file (dyalogrt.exe) on a Linux container using Wine. According to the web search results¹²³, this may cause some compatibility issues and errors. Here are some possible solutions that you can try:
+> 
+> - Use the VCRedist installation method to install the Microsoft Universal C Runtime library (the UCRT) as part of your Dyalog run-time application². This requires Administrator privileges.
+> - Use the App-local installation method to install the UCRT components into the same directory as your Dyalog run-time application². You can obtain these files from the Dyalog development package or the Windows 10 SDK².
+> - Use a different version of Wine that supports the Dyalog run-time components². You can check the WineHQ website for more information⁴.
+> - Use a different type of run-time application or component that is compatible with Linux, such as a Microsoft.NET Assembly².
+> 
+> I hope this helps you resolve your error. If you have any other questions, please feel free to ask. 😊
+> 
+> Source: Conversation with Bing, 29/12/2023
+> (1) Using a Windows EXE for an AWS Lambda or Azure Functions runtime. https://stackoverflow.com/questions/77591912/using-a-windows-exe-for-an-aws-lambda-or-azure-functions-runtime.
+> (2) Run-Time Applications and Components. https://help.dyalog.com/17.1/Content/UserGuide/Installation%20and%20Configuration/Runtime%20Applications%20and%20Components.htm.
+> (3) Run-Time Applications and Components - Dyalog. https://help.dyalog.com/latest/Content/UserGuide/Installation%20and%20Configuration/Runtime%20Applications%20and%20Components.htm.
+> (4) undefined. https://dl.winehq.org/wine-builds/winehq.key.
+> (5) undefined. https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources.
+> (6) undefined. https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk.
+> (7) undefined. https://blogs.msdn.microsoft.com/vcblog/2015/03/03/introducing-the-universal-crt.
+
+Bing's first link is to my own StackOverflow question, unanswered and deleted by moderators.
+
+Bing's comments suggest Wine is part of the Azure Functions technology.
+That would be consistent with the console message about installing npm, seen when creating the AF locally.
+
+The Dyalog runtime is here invoked using the [Workspace Runtime method](https://help.dyalog.com/17.1/Content/UserGuide/Installation%20and%20Configuration/Runtime%20Applications%20and%20Components.htm#Workspace_RunTime). 
+
+> If your application uses any component of the Microsoft .NET Framework, you must distribute the Bridge DLL and DyalogNet DLLs. These DLLs must be placed in the same directory as your EXE.
+
+Included in `phase2\revdyalog`:
+
+    -a----        08/03/2022     14:23        2378240 bridge182-64_unicode.dll
+    -a----        08/03/2022     14:22          86528 Dyalog.Net.Bridge.dll
+    -a----        08/03/2022     14:22        1358848 Dyalog.Net.Bridge.Host.dll
+
+but the song remains the same.
 
 ***
 
 ## Acknowledgements
 
-My thanks for advice to Michael Hughes and Morten Kromberg.
+My thanks for advice from Michael Hughes and Morten Kromberg.
