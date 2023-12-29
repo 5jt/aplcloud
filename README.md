@@ -254,13 +254,13 @@ Since the `dyalogrt.exe reverser.dws` command succeeds on Azurite its failure on
 > 
 > I hope this helps you resolve your error. If you have any other questions, please feel free to ask. 😊
 > 
-> Source: Conversation with Bing, 29/12/2023
-> (1) Using a Windows EXE for an AWS Lambda or Azure Functions runtime. https://stackoverflow.com/questions/77591912/using-a-windows-exe-for-an-aws-lambda-or-azure-functions-runtime.
-> (2) Run-Time Applications and Components. https://help.dyalog.com/17.1/Content/UserGuide/Installation%20and%20Configuration/Runtime%20Applications%20and%20Components.htm.
-> (3) Run-Time Applications and Components - Dyalog. https://help.dyalog.com/latest/Content/UserGuide/Installation%20and%20Configuration/Runtime%20Applications%20and%20Components.htm.
-> (4) undefined. https://dl.winehq.org/wine-builds/winehq.key.
-> (5) undefined. https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources.
-> (6) undefined. https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk.
+> Source: Conversation with Bing, 29/12/2023<br>
+> (1) Using a Windows EXE for an AWS Lambda or Azure Functions runtime. https://stackoverflow.com/questions/77591912/using-a-windows-exe-for-an-aws-lambda-or-azure-functions-runtime.<br>
+> (2) Run-Time Applications and Components. https://help.dyalog.com/17.1/Content/UserGuide/Installation%20and%20Configuration/Runtime%20Applications%20and%20Components.htm.<br>
+> (3) Run-Time Applications and Components - Dyalog. https://help.dyalog.com/latest/Content/UserGuide/Installation%20and%20Configuration/Runtime%20Applications%20and%20Components.htm.<br>
+> (4) undefined. https://dl.winehq.org/wine-builds/winehq.key.<br>
+> (5) undefined. https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources.<br>
+> (6) undefined. https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk.<br>
 > (7) undefined. https://blogs.msdn.microsoft.com/vcblog/2015/03/03/introducing-the-universal-crt.
 
 Bing's first link is to my own StackOverflow question, unanswered and deleted by moderators.
