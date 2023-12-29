@@ -98,7 +98,7 @@ Upgrade to Azure Durable Functions:
 Progress
 --------
 - [x] Implement an AF using APL+Win
-- [-] Reimplement using Dyalog APL
+- [ ] Reimplement using Dyalog APL
 - [ ] Implement a synch AF using APL+Win to process a short list of records
 - [ ] Implement an asynch AF using APL+Win to process a short list of records
 - [ ] Implement an asynch AF using Superval to process a short list of records
@@ -130,7 +130,7 @@ Proof of concept: ran APL+Win in a Linux Docker container on a Macintosh.
 The interface libraries for the cloud platforms are 64-bit code; 
 Wine and APL+Win are both 32-bit code. 
 The container image must therefore be constructed from a Linux distro with the multi-architecture extension; i.e. Debian, of which Ubuntu is a derivative: 
-see [`phase1/Dockerfile`](./phase1/Dockerfile). 
+see [`phase0/Dockerfile`](./phase0/Dockerfile). 
 
 The described container still lacks a supported language.
 The intention was to install in it both Node and the platform interface library for it.
@@ -151,7 +151,7 @@ APL+Win has no way to read parameter values from the command line, so inputs mus
 AF instances have a local file system at `D:\home` with 500 MB storage.
 So `MyHttpTrigger.js` writes the received string to `D:\home\input.txt`, makes an async call to `aplwr.exe reverser.w3` then reads `D:\home\output.txt` for the revered string to return. 
 
-In the Azure portal, created a Function App `sjtfun1220` and within it a Function [`MyHttpTrigger`](./phase1/MyProjFolder/src/functions/MyHttpTrigger.js) with a Node runtime. 
+In the Azure portal, created a Function App `sjtfun1220` and within it a Function `MyHttpTrigger` with a Node runtime. 
 
 On my local machine used [Azure Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=macos%2Cisolated-process%2Cnode-v4%2Cpython-v2%2Chttp-trigger%2Ccontainer-apps&pivots=programming-language-csharp) to test `MyHttpTrigger` 
 
@@ -169,7 +169,7 @@ and in the local command shell
 
 ### 2. Reimplement using Dyalog
 
-Script [`make-azure-funapp.ps1`](phase1\make-azure-funapp.ps1) generates versions of AF in either APL+Win or Dyalog APL and sets up for publication to Azure.
+Script [`make-azure-funapp.ps1`](./phase2/make-azure-funapp.ps1) generates versions of AF in either APL+Win or Dyalog APL and sets up for publication to Azure.
 
 #### Status 
 
