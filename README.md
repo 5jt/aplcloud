@@ -98,6 +98,7 @@ Upgrade to Azure Durable Functions:
 Progress
 --------
 - [x] Implement an AF using APL+Win
+- [-] Reimplement using Dyalog APL
 - [ ] Implement a synch AF using APL+Win to process a short list of records
 - [ ] Implement an asynch AF using APL+Win to process a short list of records
 - [ ] Implement an asynch AF using Superval to process a short list of records
@@ -164,6 +165,23 @@ and in the local command shell
 
     ❯ curl https://sjtfun1220.azurewebsites.net/api/myhttptrigger\?name\=robert
     Hello from APL, trebor!
+
+
+### 2. Reimplement using Dyalog
+
+Script [`make-azure-funapp.ps1`](phase1\make-azure-funapp.ps1) generates versions of AF in either APL+Win or Dyalog APL and sets up for publication to Azure.
+
+#### Status 
+
+- [x] [`revaplwin.azurewebsites.net/api/myhttptrigger?name=treboR`](https://revaplwin.azurewebsites.net/api/myhttptrigger?name=treboR) works
+- [ ] [`revdyalog.azurewebsites.net/api/myhttptrigger?name=treboR`](https://revdyalog.azurewebsites.net/api/myhttptrigger?name=treboR) works on Azurite (localhost) but breaks on Azure
+
+#### Azure Filesystem Logs
+
+    2023-12-29T07:49:01.262 [Information] Executing 'Functions.MyHttpTrigger' (Reason='This function was programmatically called via the host APIs.', Id=16592c1d-55a4-41e0-9683-93030dd960fd)
+    2023-12-29T07:49:01.311 [Information] Http function processed request for url "https://revdyalog.azurewebsites.net/api/myhttptrigger?name=treboR"
+    2023-12-29T07:49:01.475 [Error] Executed 'Functions.MyHttpTrigger' (Failed, Id=16592c1d-55a4-41e0-9683-93030dd960fd, Duration=213ms)Result: FailureException: Command failed: dyalogrt.exe reverser.dwsStack: Error: Command failed: dyalogrt.exe reverser.dwsat ChildProcess.exithandler (node:child_process:412:12)at ChildProcess.emit (node:events:513:28)at maybeClose (node:internal/child_process:1091:16)at ChildProcess._handle.onexit (node:internal/child_process:302:5)
+
 
 ***
 
